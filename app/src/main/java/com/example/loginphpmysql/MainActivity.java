@@ -1,5 +1,6 @@
 package com.example.loginphpmysql;
 
+// MySQL Server Imports
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Variables
     EditText editEmail, editPassword, editName;
     Button btnSignIn, btnRegister;
 
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initiation
         editEmail=(EditText)findViewById(R.id.editEmail);
         editName=(EditText)findViewById(R.id.editName);
         editPassword=(EditText)findViewById(R.id.editPassword);
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         btnSignIn=(Button)findViewById(R.id.btnSignIn);
         btnRegister=(Button)findViewById(R.id.btnRegister);
 
+        // Sign In
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,10 +49,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Register
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                // UI Changes
                 if(i==0)
                 {
                     i=1;
@@ -63,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     btnSignIn.setVisibility(View.VISIBLE);
                     i=0;
 
+                    // Sign In Process
                     AttemptLogin attemptLogin= new AttemptLogin();
                     attemptLogin.execute(editName.getText().toString(),editPassword.getText().toString(),editEmail.getText().toString());
 
@@ -74,8 +81,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Login & Register Process
     private class AttemptLogin extends AsyncTask<String, String, JSONObject> {
 
+        // Pre Execute
         @Override
 
         protected void onPreExecute() {
@@ -84,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        // Background Process
         @Override
 
         protected JSONObject doInBackground(String... args) {
@@ -107,11 +117,10 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        // After Execute
         protected void onPostExecute(JSONObject result) {
 
-            // dismiss the dialog once product deleted
-            //Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
-
+            // Result
             try {
                 if (result != null) {
                     Toast.makeText(getApplicationContext(),result.getString("message"),Toast.LENGTH_LONG).show();

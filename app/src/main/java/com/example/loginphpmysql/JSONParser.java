@@ -1,7 +1,7 @@
 package com.example.loginphpmysql;
 
+// MySQL Server Imports
 import android.util.Log;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -14,7 +14,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,33 +22,34 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 /**
- * Created by anupamchugh on 29/08/16.
+ * Created by Amirhossein Haghy on  2021/7/31
  */
 public class JSONParser {
 
+    // Variables
     static InputStream is = null;
     static JSONObject jObj = null;
     static JSONArray jArr = null;
     static String json = "";
     static String error = "";
 
-    // constructor
+    // Constructor
     public JSONParser() {
 
     }
 
-    // function get json from url
-    // by making HTTP POST or GET mehtod
+    // Function Get Json From URL
+    // By Making HTTP POST Or GET Mehtod
     public JSONObject makeHttpRequest(String url, String method,
                                       ArrayList params) {
 
-        // Making HTTP request
+        // Making HTTP Request
         try {
 
-            // check for request method
+            // Check For Request Method
             if(method.equals("POST")){
-                // request method is POST
-                // defaultHttpClient
+                // Request Method Is POST
+                // DefaultHttpClient
                 HttpClient httpClient = new DefaultHttpClient();
                 HttpPost httpPost = new HttpPost(url);
                 httpPost.setEntity(new UrlEncodedFormEntity(params));
@@ -67,7 +67,7 @@ public class JSONParser {
                 is = httpEntity.getContent();
 
             }else if(method.equals("GET")){
-                // request method is GET
+                // Request Method Is GET
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 String paramString = URLEncodedUtils.format(params, "utf-8");
                 url += "?" + paramString;
@@ -101,7 +101,7 @@ public class JSONParser {
             Log.e("Buffer Error", "Error converting result " + e.toString());
         }
 
-        // try to parse the string to a JSON object
+        // Try To Parse The String To A JSON Object
         try {
             jObj = new JSONObject(json);
             jObj.put("error_code",error);
@@ -109,11 +109,12 @@ public class JSONParser {
             Log.e("JSON Parser", "Error parsing data " + e.toString());
         }
 
-        // return JSON String
+        // Return JSON String
         return jObj;
 
     }
 
+    // Converting Stream to String
     private String convertStreamToString(InputStream is) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
@@ -125,6 +126,3 @@ public class JSONParser {
         return sb.toString();
     }
 }
-
-
-// Line 130 recently added
